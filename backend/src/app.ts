@@ -2,23 +2,17 @@ import 'dotenv/config';
 import express from 'express';
 import mongoose from 'mongoose';
 import env from './utils/validateEnv';
+import router from './routes/todoRoutes';
+import morgan from 'morgan';
 
 const app = express();
-const PORT = env.PORT;
 
-const MONGO = env.MONGO_STRING;
+// We will put middleware and router here
+// Middleware
+app.use(express.json());
+app.use(morgan('dev'));
 
-mongoose.connect(MONGO)
-    .then(() => {
-        console.log('Connected to mongodb')
-        app.listen(PORT, () => {
-            console.log('Server listening on port: ' + PORT);
-        });
-    })
-    .catch((err) => {
-        console.log(err);
-    })
+// Routes
+app.use('/api/todos', router);
 
-app.get('/', (req, res) => {
-    res.send('Hello world')!
-})
+export default app;
