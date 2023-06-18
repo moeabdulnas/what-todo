@@ -5,8 +5,19 @@ import express from 'express';
 
 const router = express.Router();
 
+// Get all todos
 router.get('/', TodosController.getTodos);
 
+// Get specific todo
+
+// Create a todo
 router.post('/', TodosController.createTodo);
+
+// Update a todo
+
+
+// Delete a todo
+
+// Mark a todo done
 
 export default router;
