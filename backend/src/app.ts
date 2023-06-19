@@ -5,6 +5,7 @@ import env from './utils/validateEnv';
 import router from './routes/todoRoutes';
 import morgan from 'morgan';
 import createHttpError, {isHttpError} from 'http-errors';
+import cors from 'cors';
 
 const app = express();
 
@@ -14,7 +15,7 @@ app.use(express.json());
 app.use(morgan('dev'));
 
 // Routes
-app.use('/api/todos', router);
+app.use('/api/todos', cors(), router);
 app.use((req, res, next) => {
     next(createHttpError(404, 'Endpoint not found'));
 });
