@@ -3,7 +3,6 @@ import UserModel from "../models/user";
 import mongoose from "mongoose";
 import createHttpError, { CreateHttpError } from "http-errors";
 import bcrypt from 'bcrypt';
-import env from "../utils/validateEnv";
 
 interface userBody {
     username: string,
@@ -27,7 +26,7 @@ export const registerUser: RequestHandler<unknown, unknown, userBody, unknown> =
         if (!username || !password) createHttpError(400, 'Invalid user signup parameters');
 
         const exisistingUser = await UserModel.findOne({ username: username }).exec();
-        if (exisistingUser) createHttpError(400, 'User with this username already exists');
+        if (exisistingUser) throw createHttpError(409, 'User with this username already exists. Please login.');
 
         bcrypt.genSalt(10, function (err, salt) {
             bcrypt.hash(password, salt, async function (err, hash) {
@@ -36,14 +35,10 @@ export const registerUser: RequestHandler<unknown, unknown, userBody, unknown> =
                     username: username,
                     password: hash
                 });
+                req.session.userId = newUser._id;
                 res.status(201).json(newUser);
-
             });
         });
-
-
-
-
     } catch (error) {
         next(error);
     }
