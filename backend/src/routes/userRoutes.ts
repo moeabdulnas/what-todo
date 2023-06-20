@@ -8,9 +8,9 @@ router.get('/', UserController.getUsers);
 
 router.post('/signup', UserController.registerUser);
 
-// router.post('/login', UserController.login);
+router.post('/login', UserController.login);
 
-// router.post('/logout', UserController.logout);
+router.post('/logout', UserController.logout);
 
 // router.post('/unregister', UserController.unregister);
 

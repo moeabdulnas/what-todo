@@ -44,4 +44,28 @@ export const registerUser: RequestHandler<unknown, unknown, userBody, unknown> =
     }
 }
 
-// export const login: RequestHandler<>
+export const login: RequestHandler<unknown, unknown, userBody, unknown> = async(req, res, next) => {
+    const username = req.body.username;
+    const password = req.body.username;
+
+    try {
+        if (!username || !password) createHttpError(400, 'Invalid user login parameters');
+
+        const user = await UserModel.findOne({ username: username }).exec();
+        if (!user) throw createHttpError(409, 'Invalid credentials');
+
+        const passwordMatch = bcrypt.compare(password, user.password);
+        if (!passwordMatch) createHttpError(401, 'Invalid credentials');
+
+        req.session.userId = user._id;
+        res.status(201).json({ sessionId: user._id});
+    } catch(error) {
+        next(error);
+    }
+}
+
+export const logout: RequestHandler = (req, res, next) => {
+    req.session.destroy(err => {
+        err ? next(err): res.sendStatus(200);
+    })
+}
