@@ -7,12 +7,29 @@ import mongoose from "mongoose";
 // We will also handle the errors that occurs
 import createHttpError from 'http-errors';
 
-
+// TodoId params type
+interface TodoIdParams {
+    todoId: string
+}
 // Get all todos
 export const getTodos: RequestHandler = async (req, res, next) => {
     try {
         const todos = await TodoModel.find().exec();
         res.status(200).json(todos);
+    } catch (error) {
+        next(error);
+    }
+}
+
+// Get specific todo
+export const getTodo: RequestHandler<TodoIdParams, unknown, unknown, unknown> = async (req, res, next) => {
+    const todoId = req.params.todoId;
+    try {
+        if (!mongoose.isValidObjectId(todoId)) throw createHttpError(400, "Invalid not id");
+        const todo = await TodoModel.findById(todoId).exec();
+        if (!todo) throw createHttpError(404, 'Todo not found');
+
+        res.status(200).json(todo);
     } catch (error) {
         next(error);
     }
@@ -35,6 +52,40 @@ export const createTodo: RequestHandler<unknown, unknown, CreateTodoBody, unknow
 
         res.status(201).json(newTodo);
     } catch (error) {
+        next(error);
+    }
+}
+
+// Change todo to done
+export const markTodoDone: RequestHandler<TodoIdParams, unknown, unknown, unknown> = async(req, res, next) => {
+    const todoId = req.params.todoId
+
+    try {
+        if (!mongoose.isValidObjectId(todoId)) throw createHttpError(400, "Invalid not id");
+
+        const todo = await TodoModel.findById(todoId);
+        if (!todo) throw createHttpError(404, 'Todo not found');
+
+        todo.done = true;
+        const updatedTodo = await todo.save();
+
+        res.status(200).json(updatedTodo);
+    } catch (error) {
+        next(error);
+    }
+}
+
+// Delete todo
+export const deleteTodo: RequestHandler<TodoIdParams, unknown, unknown, unknown> = async(req, res, next) => {
+    const todoId = req.params.todoId;
+
+    try {
+        if (!mongoose.isValidObjectId(todoId)) throw createHttpError(400, "Invalid not id");
+
+        const todo = await TodoModel.findOneAndDelete({_id: todoId}).exec();
+        if (!todo) throw createHttpError(404, 'Todo not found');
+        else res.sendStatus(204);
+    } catch(error) {
         next(error);
     }
 }
