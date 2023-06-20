@@ -1,13 +1,52 @@
 import { RequestHandler } from "express";
 import UserModel from "../models/user";
 import mongoose from "mongoose";
-import { CreateHttpError } from "http-errors";
+import createHttpError, { CreateHttpError } from "http-errors";
+import bcrypt from 'bcrypt';
+import env from "../utils/validateEnv";
 
-interface registerBody {
+interface userBody {
     username: string,
     password: string
 }
 
-const registerUser: RequestHandler<unknown, unknown, registerBody, unknown> = (req, res, next) => {
-
+export const getUsers: RequestHandler = async (req, res, next) => {
+    try {
+        const users = await UserModel.find().exec();
+        res.status(200).json(users);
+    } catch (error) {
+        next(error);
+    }
 }
+
+export const registerUser: RequestHandler<unknown, unknown, userBody, unknown> = async (req, res, next) => {
+    const username = req.body.username;
+    const password = req.body.username;
+
+    try {
+        if (!username || !password) createHttpError(400, 'Invalid user signup parameters');
+
+        const exisistingUser = await UserModel.findOne({ username: username }).exec();
+        if (exisistingUser) createHttpError(400, 'User with this username already exists');
+
+        bcrypt.genSalt(10, function (err, salt) {
+            bcrypt.hash(password, salt, async function (err, hash) {
+
+                const newUser = await UserModel.create({
+                    username: username,
+                    password: hash
+                });
+                res.status(201).json(newUser);
+
+            });
+        });
+
+
+
+
+    } catch (error) {
+        next(error);
+    }
+}
+
+// export const login: RequestHandler<>

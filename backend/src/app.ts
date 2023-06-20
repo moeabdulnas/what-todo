@@ -15,7 +15,7 @@ app.use(morgan('dev'));
 
 // Routes
 app.use('/api/todos', cors(), todoRouter);
-// app.use('/api/users', cors(), userRouter);
+app.use('/api/users', cors(), userRouter);
 app.use((req, res, next) => {
     next(createHttpError(404, 'Endpoint not found'));
 });
