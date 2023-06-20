@@ -2,14 +2,37 @@ import 'dotenv/config';
 import express, { NextFunction, Request, Response} from 'express';
 import todoRouter from './routes/todoRoutes';
 import userRouter from './routes/userRoutes';
+import session, { SessionOptions } from 'express-session';
 import morgan from 'morgan';
 import createHttpError, {isHttpError} from 'http-errors';
 import cors from 'cors';
+import env from './utils/validateEnv';
+import MongoStore from 'connect-mongo';
 
 const app = express();
+let sessionOptions: SessionOptions = {
+    secret: env.SESSION_SECRET,
+    resave: false,
+    saveUninitialized: false,
+    cookie: {
+        maxAge: 60 * 60 * 1000,
+        secure: false
+    },
+    rolling: true,
+    store: MongoStore.create({
+        mongoUrl: env.MONGO_STRING,
+        dbName: 'sessions-db'
+    })
+}
 
 // We will put middleware and router here
 // Middleware
+if (app.get('env') === 'production'){
+    app.set('trust proxy', 1);
+    sessionOptions.cookie = sessionOptions.cookie || {}; // Initialize cookie if it's undefined
+    sessionOptions.cookie.secure = true;
+}
+app.use(session(sessionOptions));
 app.use(express.json());
 app.use(morgan('dev'));
 
