@@ -1,8 +1,7 @@
 import 'dotenv/config';
 import express, { NextFunction, Request, Response} from 'express';
-import mongoose from 'mongoose';
-import env from './utils/validateEnv';
-import router from './routes/todoRoutes';
+import todoRouter from './routes/todoRoutes';
+import userRouter from './routes/userRoutes';
 import morgan from 'morgan';
 import createHttpError, {isHttpError} from 'http-errors';
 import cors from 'cors';
@@ -15,7 +14,8 @@ app.use(express.json());
 app.use(morgan('dev'));
 
 // Routes
-app.use('/api/todos', router);
+app.use('/api/todos', cors(), todoRouter);
+// app.use('/api/users', cors(), userRouter);
 app.use((req, res, next) => {
     next(createHttpError(404, 'Endpoint not found'));
 });

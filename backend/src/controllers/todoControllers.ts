@@ -25,7 +25,7 @@ export const getTodos: RequestHandler = async (req, res, next) => {
 export const getTodo: RequestHandler<TodoIdParams, unknown, unknown, unknown> = async (req, res, next) => {
     const todoId = req.params.todoId;
     try {
-        if (!mongoose.isValidObjectId(todoId)) throw createHttpError(400, "Invalid not id");
+        if (!mongoose.isValidObjectId(todoId)) throw createHttpError(400, "Invalid todo id");
         const todo = await TodoModel.findById(todoId).exec();
         if (!todo) throw createHttpError(404, 'Todo not found');
 
@@ -61,7 +61,7 @@ export const markTodoDone: RequestHandler<TodoIdParams, unknown, unknown, unknow
     const todoId = req.params.todoId
 
     try {
-        if (!mongoose.isValidObjectId(todoId)) throw createHttpError(400, "Invalid not id");
+        if (!mongoose.isValidObjectId(todoId)) throw createHttpError(400, "Invalid todo id");
 
         const todo = await TodoModel.findById(todoId);
         if (!todo) throw createHttpError(404, 'Todo not found');

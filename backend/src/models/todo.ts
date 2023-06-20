@@ -3,7 +3,7 @@ import { InferSchemaType, Schema, model } from "mongoose";
 // Create schema for todos
 const todoSchema = new Schema({
     text: {type: String, required:true},
-    done: {type: Boolean, default: false}
+    done: {type: Boolean, default: false},
 }, {timestamps:true});
 
 // Type creation of a todo
