@@ -20,7 +20,7 @@ export const getUsers: RequestHandler = async (req, res, next) => {
 
 export const registerUser: RequestHandler<unknown, unknown, userBody, unknown> = async (req, res, next) => {
     const username = req.body.username;
-    const password = req.body.username;
+    const password = req.body.password;
 
     try {
         if (!username || !password) createHttpError(400, 'Invalid user signup parameters');
@@ -36,7 +36,7 @@ export const registerUser: RequestHandler<unknown, unknown, userBody, unknown> =
                     password: hash
                 });
                 req.session.userId = newUser._id;
-                res.status(201).json({ sessionId: newUser._id });
+                res.status(201).json({ userId: newUser._id });
             });
         });
     } catch (error) {
@@ -46,7 +46,7 @@ export const registerUser: RequestHandler<unknown, unknown, userBody, unknown> =
 
 export const login: RequestHandler<unknown, unknown, userBody, unknown> = async(req, res, next) => {
     const username = req.body.username;
-    const password = req.body.username;
+    const password = req.body.password;
 
     try {
         if (!username || !password) createHttpError(400, 'Invalid user login parameters');
