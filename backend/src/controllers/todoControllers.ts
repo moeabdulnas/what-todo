@@ -47,7 +47,8 @@ export const createTodo: RequestHandler<unknown, unknown, CreateTodoBody, unknow
         if (!text) throw createHttpError(400, 'Todo must have some text.');
 
         const newTodo = await TodoModel.create({
-            text: text
+            text: text,
+            owner: req.session.userId
         });
 
         res.status(201).json(newTodo);

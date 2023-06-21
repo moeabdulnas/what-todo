@@ -36,7 +36,7 @@ export const registerUser: RequestHandler<unknown, unknown, userBody, unknown> =
                     password: hash
                 });
                 req.session.userId = newUser._id;
-                res.status(201).json(newUser);
+                res.status(201).json({ sessionId: newUser._id });
             });
         });
     } catch (error) {
@@ -58,7 +58,7 @@ export const login: RequestHandler<unknown, unknown, userBody, unknown> = async(
         if (!passwordMatch) createHttpError(401, 'Invalid credentials');
 
         req.session.userId = user._id;
-        res.status(201).json({ sessionId: user._id});
+        res.status(201).json({ userId: user._id });
     } catch(error) {
         next(error);
     }
