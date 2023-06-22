@@ -13,10 +13,10 @@ interface TodoIdParams {
 }
 // Get all todos
 export const getTodos: RequestHandler = async (req, res, next) => {
-    const userId = req.session.userId;
+    // const userId = req.session.userId;
 
     try {
-        if (!userId) throw createHttpError(400, "Unauthorized");
+        // if (!userId) throw createHttpError(400, "Unauthorized");
         // const todos = await TodoModel.find( {owner: userId} ).exec();
         const todos = await TodoModel.find().exec();
         res.status(200).json(todos);
