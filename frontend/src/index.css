@@ -35,6 +35,10 @@ img {
 }
 
 :root {
-    --nav-bg-color: #14213d;
-    --login-color: #fca311;
+    --main-bg-color: #F1FAEE;
+    --nav-bg-color: #A8DADC;
+    --login-color: #1D3557;
+    --add-color: #457B9D;
+    --delete-color: #E63946;
+    background-color: var(--main-bg-color);
 }
