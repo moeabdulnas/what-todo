@@ -26,7 +26,9 @@ function App() {
 
   return (
     <>
-      {todos.map(todo => <div key={todo._id}><Todo todo={todo}/></div> )}
+      <div className="w-2/3 sm:w-3/5 md:w-3/5 lg:w-2/5 2xl:w-1/5 mx-auto ">
+        {todos.map(todo => <div key={todo._id}><Todo todo={todo}/></div> )}
+      </div>
     </>
   )
 }
