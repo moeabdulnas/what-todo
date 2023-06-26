@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-const Login = (props) => {
+const Login = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate("");
@@ -34,7 +34,6 @@ const Login = (props) => {
         const responseData = await response.json();
         console.log(responseData);
         // eslint-disable-next-line react/prop-types
-        props.setLoggedIn(true);
         navigate("/");
         return responseData;
       } catch (error) {

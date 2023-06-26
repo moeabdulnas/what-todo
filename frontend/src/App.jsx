@@ -5,6 +5,7 @@ function App() {
   const [todos, setTodos] = useState([]);
 
   useEffect(() => {
+    // eslint-disable-next-line react/prop-types
     const fetchTodos = async () => {
       try {
         const res = await fetch("http://localhost:5012/api/todos", {
@@ -14,8 +15,10 @@ function App() {
         if (!res.ok) {
           throw new Error("Failed to fetch todos");
         }
+        // eslint-disable-next-line react/prop-types
         const data = await res.json();
         console.log(data);
+        
         setTodos(data);
       } catch (error) {
         console.error(error);
