@@ -7,11 +7,15 @@ function App() {
   useEffect(() => {
     const fetchTodos = async () => {
       try {
-        const res = await fetch("http://localhost:5012/api/todos");
+        const res = await fetch("http://localhost:5012/api/todos", {
+          method: "GET",
+          credentials: "include",
+        });
         if (!res.ok) {
           throw new Error("Failed to fetch todos");
         }
         const data = await res.json();
+        console.log(data);
         setTodos(data);
       } catch (error) {
         console.error(error);
