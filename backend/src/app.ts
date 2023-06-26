@@ -35,10 +35,16 @@ if (app.get('env') === 'production'){
 app.use(session(sessionOptions));
 app.use(express.json());
 app.use(morgan('dev'));
-
+app.use(
+    cors({
+      origin: 'http://localhost:5173', // Replace with the actual origin of your frontend application
+      credentials: true,
+    })
+  );
+  
 // Routes
-app.use('/api/todos', cors(), todoRouter);
-app.use('/api/users', cors(), userRouter);
+app.use('/api/todos', todoRouter);
+app.use('/api/users', userRouter);
 app.use((req, res, next) => {
     next(createHttpError(404, 'Endpoint not found'));
 });

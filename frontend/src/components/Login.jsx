@@ -1,8 +1,10 @@
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const Login = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const navigate = useNavigate("");
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -10,33 +12,34 @@ const Login = () => {
     setPassword(e.target.password.value);
   };
 
-  
   //login
   useEffect(() => {
     async function login(
-        url = "http://localhost:5012/api/users/login",
-        data = {
-          username: username,
-          password: password,
-        }
-      ) {
-        try {
-          const response = await fetch(url, {
-            method: "POST",
-            mode: "cors",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify(data),
-          });
-          const responseData = await response.json();
-          console.log(responseData);
-          return responseData;
-        } catch (error) {
-          console.error(error);
-          // Handle error here
-        }
+      url = "http://localhost:5012/api/users/login",
+      data = {
+        username: username,
+        password: password,
       }
+    ) {
+      try {
+        const response = await fetch(url, {
+          method: "POST",
+          mode: "cors",
+          credentials: "include",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(data),
+        });
+        const responseData = await response.json();
+        console.log(responseData);
+        navigate("/");
+        return responseData;
+      } catch (error) {
+        console.error(error);
+        // Handle error here
+      }
+    }
     if (username && password) login();
   }, [username, password]);
 
