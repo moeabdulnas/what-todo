@@ -5,8 +5,8 @@ import Login from "./Login";
 const NavBar = () => {
   return (
     <>
-      <header className="bg-teal-700 text-white stick top-0 shadow-xl">
-        <section className="py-4 px-10 flex justify-between">
+      <header className="stick top-0 bg-teal-700 text-white shadow-xl">
+        <section className="flex justify-between px-10 py-4">
           <Link to="/">
             <h1 className="text-3xl">what-todo</h1>
           </Link>
