@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import Todo from "./components/Todo";
 
-function App() {
+function App(props) {
   const [todos, setTodos] = useState([]);
 
   useEffect(() => {
@@ -15,7 +15,9 @@ function App() {
         if (!res.ok) {
           throw new Error("Failed to fetch todos");
         }
+        
         // eslint-disable-next-line react/prop-types
+        props.setLoggedIn(true);
         const data = await res.json();
         console.log(data);
         
@@ -25,7 +27,7 @@ function App() {
       }
     };
 
-    fetchTodos();
+    if (props.loggedIn) fetchTodos();
   }, []);
 
   return (

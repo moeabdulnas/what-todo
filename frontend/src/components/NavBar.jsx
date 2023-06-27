@@ -5,10 +5,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 const NavBar = () => {
-  const [loggedIn, setLoggedIn] = useState(() => {
-    const sessionCookie = document.cookie.includes("connect.sid");
-    return sessionCookie;
-  });
+  const [loggedIn, setLoggedIn] = useState(false);
 
   // Update loggedIn state when session cookie changes
   useEffect(() => {
@@ -58,8 +55,19 @@ const NavBar = () => {
         </section>
       </header>
       <Routes>
-        <Route path="/" element={<App />} />
-        <Route path="/login" element={<Login loggedIn={loggedIn} />} />
+        <Route
+          path="/"
+          element={
+            loggedIn ? (
+              <App loggedIn={loggedIn} setLoggedIn={setLoggedIn} />
+            ) : (
+              <>
+                <p className="text-3xl text-center mt-10">Please log in to see your todos</p>
+              </>
+            )
+          }
+        />
+        <Route path="/login" element={<Login loggedIn={loggedIn} setLoggedIn={setLoggedIn} />} />
       </Routes>
     </>
   );
