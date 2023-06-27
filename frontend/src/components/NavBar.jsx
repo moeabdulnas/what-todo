@@ -2,6 +2,7 @@ import { Link, Route, Routes } from "react-router-dom";
 import App from "../App";
 import Login from "./Login";
 import AddTodo from "./AddTodo";
+import Register from "./Register";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
@@ -91,6 +92,7 @@ const NavBar = () => {
           element={<Login loggedIn={loggedIn} setLoggedIn={setLoggedIn} />}
         />
         <Route path="/add" element={<AddTodo loggedIn={loggedIn} />} />
+        <Route path="/register" element={<Register loggedIn={loggedIn} setLoggedIn={setLoggedIn} />} />
       </Routes>
     </>
   );

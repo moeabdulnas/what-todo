@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 const Login = (props) => {
   const [username, setUsername] = useState("");
@@ -69,9 +70,13 @@ const Login = (props) => {
               className="w-56 rounded px-2 py-1"
               required
             />
+            <div className="mt-2 flex items-center gap-2">
+              <p className="text-xs text-gray-600">Don't have an account?</p>
+              <p className="underline cursor-pointer text-gray-950 text-sm" onClick={() => (navigate("/register"))}>Register</p>
+            </div>
             <button
               type="submit"
-              className="mt-12 w-28 rounded-lg bg-gradient-to-r from-indigo-500 from-10% via-sky-500 via-30% to-emerald-500 to-90% py-2 text-3xl text-white"
+              className="mt-6 w-28 rounded-lg bg-gradient-to-r from-indigo-500 from-10% via-sky-500 via-30% to-emerald-500 to-90% py-2 text-3xl text-white"
             >
               Login
             </button>
