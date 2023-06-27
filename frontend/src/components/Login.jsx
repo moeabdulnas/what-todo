@@ -31,6 +31,7 @@ const Login = (props) => {
           },
           body: JSON.stringify(data),
         });
+        if (!response.ok) alert("Logging in did not work, please try again");
         const responseData = await response.json();
         console.log(responseData);
         // eslint-disable-next-line react/prop-types

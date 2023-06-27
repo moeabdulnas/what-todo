@@ -31,8 +31,8 @@ const NavBar = () => {
       });
       if (res.ok) setLoggedIn(false);
       window.location.reload();
-      const data = await res.json();
-      return data;
+      // const data = await res.json();
+      // return data;
     } catch (error) {
       console.error(error);
     }

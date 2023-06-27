@@ -22,10 +22,10 @@ const AddTodo = (props) => {
           },
           body: JSON.stringify({ text: text }),
         });
+        if (!res.ok) alert("Adding did not work. Please try again");
         const resData = await res.json();
         console.log(resData);
         navigate("/");
-        return resData;
       } catch (error) {
         console.error(error);
       }
@@ -50,6 +50,7 @@ const AddTodo = (props) => {
               name="text"
               id="text"
               className="w-56 rounded px-2 py-1"
+              required
             />
             <button
               type="submit"
