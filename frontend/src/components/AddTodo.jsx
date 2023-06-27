@@ -26,6 +26,7 @@ const AddTodo = (props) => {
         const resData = await res.json();
         console.log(resData);
         navigate("/");
+        window.location.reload();
       } catch (error) {
         console.error(error);
       }

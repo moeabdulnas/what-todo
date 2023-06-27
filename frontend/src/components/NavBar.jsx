@@ -7,21 +7,35 @@ import { useNavigate } from "react-router-dom";
 
 const NavBar = () => {
   const [loggedIn, setLoggedIn] = useState(false);
+  const [todos, setTodos] = useState([]);
 
-  // Update loggedIn state when session cookie changes
-  useEffect(() => {
-    const handleCookieChange = () => {
-      const sessionCookie = document.cookie.includes("connect.sid");
-      setLoggedIn(sessionCookie);
-    };
-
-    window.addEventListener("storage", handleCookieChange);
-
-    return () => {
-      window.removeEventListener("storage", handleCookieChange);
-    };
-  }, []);
   const navigate = useNavigate("");
+
+  useEffect(() => {
+    // eslint-disable-next-line react/prop-types
+    const fetchTodos = async () => {
+      try {
+        const res = await fetch("http://localhost:5012/api/todos", {
+          method: "GET",
+          credentials: "include",
+        });
+        if (!res.ok) {
+          throw new Error("Failed to fetch todos");
+        }
+
+        // eslint-disable-next-line react/prop-types
+        setLoggedIn(true);
+        const data = await res.json();
+        console.log(data);
+
+        setTodos(data);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    fetchTodos();
+  }, []);
 
   const handleLogout = async () => {
     try {
@@ -46,7 +60,6 @@ const NavBar = () => {
             <h1 className="text-3xl">what-todo</h1>
           </Link>
           <div className="flex gap-6 text-xl">
-            {/* <Link>new task</Link> */}
             {loggedIn ? (
               <>
                 <button onClick={() => navigate("/add")}>Add todo</button>
@@ -63,7 +76,7 @@ const NavBar = () => {
           path="/"
           element={
             loggedIn ? (
-              <App loggedIn={loggedIn} setLoggedIn={setLoggedIn} />
+              <App todos={todos} />
             ) : (
               <>
                 <p className="mt-10 text-center text-3xl">
@@ -77,7 +90,7 @@ const NavBar = () => {
           path="/login"
           element={<Login loggedIn={loggedIn} setLoggedIn={setLoggedIn} />}
         />
-        <Route path="/add" element={<AddTodo loggedIn={loggedIn}/>} />
+        <Route path="/add" element={<AddTodo loggedIn={loggedIn} />} />
       </Routes>
     </>
   );

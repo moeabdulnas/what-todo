@@ -34,13 +34,12 @@ const Login = (props) => {
         if (!response.ok) alert("Logging in did not work, please try again");
         const responseData = await response.json();
         console.log(responseData);
-        // eslint-disable-next-line react/prop-types
         props.setLoggedIn(true);
         navigate("/");
+        window.location.reload();
         return responseData;
       } catch (error) {
         console.error(error);
-        // Handle error here
       }
     }
     if (username && password) login();
@@ -51,7 +50,6 @@ const Login = (props) => {
       <section className="mx-auto mt-12 flex w-2/3 items-center justify-center rounded-lg bg-teal-100 p-6 sm:w-1/2 md:w-2/5">
         <form id="login" onSubmit={handleSubmit}>
           <div className="flex flex-col items-center gap-2">
-            {/* <section> */}
             <label htmlFor="username" className="text-2xl">
               Username{" "}
             </label>
@@ -61,8 +59,6 @@ const Login = (props) => {
               className="w-56 rounded px-2 py-1"
               required
             />
-            {/* </section> */}
-            {/* <section> */}
             <label htmlFor="password" className="mt-4 rounded text-2xl">
               Password{" "}
             </label>
@@ -73,7 +69,6 @@ const Login = (props) => {
               className="w-56 rounded px-2 py-1"
               required
             />
-            {/* </section> */}
             <button
               type="submit"
               className="mt-12 w-28 rounded-lg bg-gradient-to-r from-indigo-500 from-10% via-sky-500 via-30% to-emerald-500 to-90% py-2 text-3xl text-white"
@@ -86,6 +81,5 @@ const Login = (props) => {
     </div>
   );
 };
-
 
 export default Login;
