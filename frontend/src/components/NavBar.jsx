@@ -1,6 +1,7 @@
 import { Link, Route, Routes } from "react-router-dom";
 import App from "../App";
 import Login from "./Login";
+import AddTodo from "./AddTodo";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
@@ -47,7 +48,10 @@ const NavBar = () => {
           <div className="flex gap-6 text-xl">
             {/* <Link>new task</Link> */}
             {loggedIn ? (
-              <button onClick={handleLogout}>Logout</button>
+              <>
+                <button onClick={() => navigate("/add")}>Add todo</button>
+                <button onClick={handleLogout}>Logout</button>
+              </>
             ) : (
               <button onClick={() => navigate("/login")}>login</button>
             )}
@@ -62,12 +66,18 @@ const NavBar = () => {
               <App loggedIn={loggedIn} setLoggedIn={setLoggedIn} />
             ) : (
               <>
-                <p className="text-3xl text-center mt-10">Please log in to see your todos</p>
+                <p className="mt-10 text-center text-3xl">
+                  Please log in to see your todos
+                </p>
               </>
             )
           }
         />
-        <Route path="/login" element={<Login loggedIn={loggedIn} setLoggedIn={setLoggedIn} />} />
+        <Route
+          path="/login"
+          element={<Login loggedIn={loggedIn} setLoggedIn={setLoggedIn} />}
+        />
+        <Route path="/add" element={<AddTodo loggedIn={loggedIn}/>} />
       </Routes>
     </>
   );
