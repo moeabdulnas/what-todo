@@ -65,7 +65,7 @@ export const createTodo: RequestHandler<unknown, unknown, CreateTodoBody, unknow
     }
 }
 
-// Change todo to done
+// Toggle todo done/not done
 export const markTodoDone: RequestHandler<TodoIdParams, unknown, unknown, unknown> = async(req, res, next) => {
     const todoId = req.params.todoId;
     const userId = req.session.userId;
@@ -77,7 +77,9 @@ export const markTodoDone: RequestHandler<TodoIdParams, unknown, unknown, unknow
         const todo = await TodoModel.findById(todoId);
         if (!todo) throw createHttpError(404, 'Todo not found');
 
-        todo.done = true;
+        if (todo.done) todo.done = false;
+        else todo.done = true;
+        
         const updatedTodo = await todo.save();
 
         res.status(200).json(updatedTodo);
@@ -85,6 +87,7 @@ export const markTodoDone: RequestHandler<TodoIdParams, unknown, unknown, unknow
         next(error);
     }
 }
+
 
 // Delete todo
 export const deleteTodo: RequestHandler<TodoIdParams, unknown, unknown, unknown> = async(req, res, next) => {
