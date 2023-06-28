@@ -77,9 +77,8 @@ export const markTodoDone: RequestHandler<TodoIdParams, unknown, unknown, unknow
         const todo = await TodoModel.findById(todoId);
         if (!todo) throw createHttpError(404, 'Todo not found');
 
-        if (todo.done) todo.done = false;
-        else todo.done = true;
-        
+        todo.done = !todo.done;
+        console.log(todo.done);
         const updatedTodo = await todo.save();
 
         res.status(200).json(updatedTodo);
