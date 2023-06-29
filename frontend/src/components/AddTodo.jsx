@@ -40,10 +40,10 @@ const AddTodo = (props) => {
 
   return (
     <div className="absolute h-screen w-screen bg-gradient-to-r from-indigo-500 from-10% via-sky-500 via-30% to-emerald-500 to-90%">
-      <section className="mx-auto my-4 w-2/3 sm:w-3/5 md:w-3/5 lg:w-2/5 2xl:w-1/5">
+      <section className="mx-auto my-4 w-2/3 sm:w-3/5 md:w-3/5 lg:w-2/5 2xl:w-1/5 text-center">
         <form onSubmit={handleSubmit}>
-          <div className="flex flex-col items-center gap-4 text-center">
-            <label htmlFor="text" className="mr-4 text-2xl">
+          <div className="flex flex-col items-center gap-4 ">
+            <label htmlFor="text" className=" text-2xl">
               Todo title
             </label>
             <input
@@ -55,7 +55,7 @@ const AddTodo = (props) => {
             />
             <button
               type="submit"
-              className="ml-4 rounded-lg bg-green-800 px-4 py-2 text-xl text-white"
+              className="rounded-lg bg-green-800 px-4 py-2 text-xl text-white"
             >
               Add
             </button>

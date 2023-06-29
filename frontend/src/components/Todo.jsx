@@ -22,6 +22,10 @@ const Todo = (props) => {
         }
         const newTodo = await res.json();
         props.todo.done = newTodo.done;
+        // const todosWithoutThis = props.todos.map( (currentTodo) => currentTodo._id != todo._id)
+        // const sortedTodos = [...props.todos].sort(
+        //   (a, b) => new Date(b.updatedAt) - new Date(a.updatedAt)
+        // );
       } catch (error) {
         console.error(error);
         setDone((prevDone) => !prevDone); 
@@ -47,10 +51,9 @@ const Todo = (props) => {
       });
       if (!res.ok) {
         throw new Error("Something went wrong.");
-      } else {
-        props.setTodos(props.todos.filter( (todoItem) => todoItem._id != props.todo._id));
-        console.log("Deleted");
       }
+      props.setTodos(props.todos.filter( (todoItem) => todoItem._id != props.todo._id));
+      console.log("Deleted");
     } catch (error) {
       console.error(error);
     }
