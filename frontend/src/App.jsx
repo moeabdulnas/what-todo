@@ -12,7 +12,7 @@ function App(props) {
         {sortedTodos.length > 0 ? (
           sortedTodos.map((todo) => (
             <div key={todo._id}>
-              <Todo todo={todo} />
+              <Todo todo={todo} todos={sortedTodos} setTodos={props.setTodos} />
             </div>
           ))
         ) : (

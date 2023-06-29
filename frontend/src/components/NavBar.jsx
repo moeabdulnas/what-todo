@@ -77,7 +77,7 @@ const NavBar = () => {
           path="/"
           element={
             loggedIn ? (
-              <App todos={todos} />
+              <App todos={todos} setTodos={setTodos} />
             ) : (
               <>
                 <p className="mt-10 text-center text-3xl">
