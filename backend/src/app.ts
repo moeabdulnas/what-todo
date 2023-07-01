@@ -10,12 +10,14 @@ import env from './utils/validateEnv';
 import MongoStore from 'connect-mongo';
 
 const app = express();
+const ONE_DAY_LIMIT =  60 * 60 * 1000 * 24;
+
 let sessionOptions: SessionOptions = {
     secret: env.SESSION_SECRET,
     resave: false,
     saveUninitialized: false,
     cookie: {
-        maxAge: 60 * 60 * 1000,
+        maxAge: ONE_DAY_LIMIT,
         secure: false
     },
     rolling: true,
@@ -25,7 +27,6 @@ let sessionOptions: SessionOptions = {
     })
 }
 
-// We will put middleware and router here
 // Middleware
 if (app.get('env') === 'production'){
     app.set('trust proxy', 1);
@@ -34,6 +35,7 @@ if (app.get('env') === 'production'){
 }
 app.use(session(sessionOptions));
 app.use(express.json());
+// Logging tool
 app.use(morgan('dev'));
 app.use(
     cors({
@@ -49,8 +51,7 @@ app.use((req, res, next) => {
     next(createHttpError(404, 'Endpoint not found'));
 });
 
-// Express error handler. Moved from above to here. Comment below is for NextFunction yellow.
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
+// Express error handler. Moved from above to here, to be used last as next() in error handling.
 app.use((error: unknown, req: Request, res: Response, next: NextFunction) => {
     console.error(error);
     

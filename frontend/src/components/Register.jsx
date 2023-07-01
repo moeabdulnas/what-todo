@@ -4,7 +4,6 @@ import { useNavigate } from "react-router-dom";
 const Register = (props) => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const [matchPassword, setMatchPassword] = useState("");
   const [prompt, setPrompt] = useState("");
 
   const navigate = useNavigate("");
@@ -30,7 +29,7 @@ const Register = (props) => {
         const res = await fetch("http://localhost:5012/api/users/signup", {
           method: "POST",
           mode: "cors",
-          credentials:"include",
+          credentials: "include",
           headers: {
             "Content-Type": "application/json",
           },
@@ -40,7 +39,6 @@ const Register = (props) => {
         if (res.status === 409) {
           setPrompt("User with this username exists");
         } else if (res.ok) {
-          const data = await res.json();
           props.setLoggedIn(true);
           navigate("/");
           window.location.reload();

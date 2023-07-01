@@ -9,14 +9,15 @@ interface userBody {
     password: string
 }
 
-export const getUsers: RequestHandler = async (req, res, next) => {
-    try {
-        const users = await UserModel.find().exec();
-        res.status(200).json(users);
-    } catch (error) {
-        next(error);
-    }
-}
+// User testing purposes
+// export const getUsers: RequestHandler = async (req, res, next) => {
+//     try {
+//         const users = await UserModel.find().exec();
+//         res.status(200).json(users);
+//     } catch (error) {
+//         next(error);
+//     }
+// }
 
 export const registerUser: RequestHandler<unknown, unknown, userBody, unknown> = async (req, res, next) => {
     const username = req.body.username;

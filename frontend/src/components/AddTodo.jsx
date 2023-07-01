@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 const AddTodo = (props) => {
   const [text, setText] = useState("");
   const navigate = useNavigate("");
+  
   const handleSubmit = (e) => {
     e.preventDefault();
     const inputValue = e.target.text.value;
@@ -22,7 +23,7 @@ const AddTodo = (props) => {
           },
           body: JSON.stringify({ text: text }),
         });
-        if (!res.ok) alert("Adding did not work. Please try again");
+        if (!res.ok) throw new Error("Adding a todo did not work. Please try again");
         const resData = await res.json();
         console.log(resData);
         navigate("/");

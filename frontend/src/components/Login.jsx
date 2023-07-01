@@ -32,9 +32,10 @@ const Login = (props) => {
           },
           body: JSON.stringify(data),
         });
-        if (!response.ok) alert("Logging in did not work, please try again");
+        if (!response.ok)
+          throw new Error("Logging in did not work, please try again");
+          
         const responseData = await response.json();
-        console.log(responseData);
         props.setLoggedIn(true);
         navigate("/");
         window.location.reload();
@@ -72,7 +73,12 @@ const Login = (props) => {
             />
             <div className="mt-2 flex items-center gap-2">
               <p className="text-xs text-gray-600">Don't have an account?</p>
-              <p className="underline cursor-pointer text-gray-950 text-sm" onClick={() => (navigate("/register"))}>Register</p>
+              <p
+                className="cursor-pointer text-sm text-gray-950 underline"
+                onClick={() => navigate("/register")}
+              >
+                Register
+              </p>
             </div>
             <button
               type="submit"

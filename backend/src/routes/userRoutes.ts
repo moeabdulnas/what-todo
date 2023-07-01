@@ -3,8 +3,8 @@ import * as UserController from "../controllers/userControllers";
 
 const router = express.Router();
 
-// Get all users (for development, this does not make sense in production)
-router.get("/", UserController.getUsers);
+// Get all users (for testing during development).
+// router.get("/", UserController.getUsers);
 
 router.post("/signup", UserController.registerUser);
 

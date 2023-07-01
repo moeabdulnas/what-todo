@@ -8,27 +8,22 @@ const Todo = (props) => {
   useEffect(() => {
     const updateTodo = async () => {
       try {
-        const res = await fetch(`http://localhost:5012/api/todos/${props.todo._id}`, {
-          method: "PATCH",
-          credentials: "include",
-          mode: "cors",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ todoId: props.todo._id }),
-        });
-        if (!res.ok) {
-          throw new Error("Something went wrong.");
-        }
-        const newTodo = await res.json();
-        props.todo.done = newTodo.done;
-        // const todosWithoutThis = props.todos.map( (currentTodo) => currentTodo._id != todo._id)
-        // const sortedTodos = [...props.todos].sort(
-        //   (a, b) => new Date(b.updatedAt) - new Date(a.updatedAt)
-        // );
+        const res = await fetch(
+          `http://localhost:5012/api/todos/${props.todo._id}`,
+          {
+            method: "PATCH",
+            credentials: "include",
+            mode: "cors",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ todoId: props.todo._id }),
+          }
+        );
+        if (!res.ok) throw new Error("Something went wrong.");
       } catch (error) {
         console.error(error);
-        setDone((prevDone) => !prevDone); 
+        setDone((prevDone) => !prevDone);
       }
     };
 
@@ -40,20 +35,23 @@ const Todo = (props) => {
   const deleteTodo = async (e) => {
     e.preventDefault();
     try {
-      const res = await fetch(`http://localhost:5012/api/todos/${props.todo._id}`, {
-        method: "DELETE",
-        credentials: "include",
-        mode: "cors",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ todoId: props.todo._id }),
-      });
-      if (!res.ok) {
-        throw new Error("Something went wrong.");
-      }
-      props.setTodos(props.todos.filter( (todoItem) => todoItem._id != props.todo._id));
-      console.log("Deleted");
+      const res = await fetch(
+        `http://localhost:5012/api/todos/${props.todo._id}`,
+        {
+          method: "DELETE",
+          credentials: "include",
+          mode: "cors",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ todoId: props.todo._id }),
+        }
+      );
+      if (!res.ok) throw new Error("Something went wrong.");
+      
+      props.setTodos(
+        [...props.todos].filter((todoItem) => todoItem._id != props.todo._id)
+      );
     } catch (error) {
       console.error(error);
     }
@@ -72,7 +70,10 @@ const Todo = (props) => {
             checked={done}
             onChange={() => setDone(!done)}
           />
-          <BsTrash onClick={deleteTodo} className="cursor-pointer text-xl md:text-2xl" />
+          <BsTrash
+            onClick={deleteTodo}
+            className="cursor-pointer text-xl md:text-2xl"
+          />
         </div>
       </div>
     </>
